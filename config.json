@@ -1,0 +1,18 @@
+{
+    "targets":{
+        "R5": ["param1","param2","IP 123.456.789"],
+        "S4": ["param1","param2","IP 123.456.456"]
+    },
+
+    "gateways":{
+        "Gateway1": ["param1","param2","IP 111.222.333"]
+    },
+
+    "links": {
+        "Gateway1": ["R5","S4"],
+        "Gateway2": ["R5","S4"]
+    },
+
+    "linkCommand": "jumpProxy"
+
+}
