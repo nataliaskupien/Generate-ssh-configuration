@@ -41,11 +41,10 @@ Config::Config(){}
 
  std::string Config::create_output(std::string input_name)
  {
+
     std::ifstream i(input_name);
 
-    json j;
-
-    i>>j;
+    json j = json::parse(i);
 
     std::string command_name;
     std::string jump_gateway;
@@ -100,10 +99,10 @@ Config::Config(){}
 
                 target.param2 = input.erase(0, input.find(delimieter) + delimieter.length());
             }
-            for(auto it = j["linkCommand"].begin(); it != j["linkCommand"].end(); ++it)
-            {
-                target.command = it.key();
-            }
+            // for(auto it = j["linkCommand"].begin(); it != j["linkCommand"].end(); ++it)
+            // {
+            //     target.command = it.key();
+            // }
         }
         targets_array.push_back(target);
     }
@@ -113,11 +112,6 @@ Config::Config(){}
         Gateway gateway;
 
         gateway.gateway_name = it.key();
-
-        if(gateway.gateway_target.size() == 0)
-        {
-            gateway.gateway_target = targets_array;
-        }
 
         for(const auto & item : j["gateways"][gateway.gateway_name].items())
         {
@@ -134,10 +128,14 @@ Config::Config(){}
                 gateway.ip = item.value().get<std::string>();
             }
         }
-
         for(auto it = j["links"].begin(); it != j["links"].end(); ++it)
         {
             std::string link_name = it.key();
+        
+            if (link_name != gateway.gateway_name)
+            {
+                continue;
+            }
 
             for(const auto & item : j["links"][link_name].items())
             {
@@ -145,9 +143,8 @@ Config::Config(){}
                 {
                     if(item.value().get<std::string>() == targets_array[i].target_name)
                     {
-                        int value = stoi(item.key());
+                        gateway.gateway_target.push_back(targets_array[i]);
 
-                        gateway.gateway_target[value] = targets_array[i];
                     }
                 }
             }
@@ -155,7 +152,7 @@ Config::Config(){}
         gateway_array.push_back(gateway);
     }
 
-     for(auto it = j["links"].begin(); it != j["links"].end(); ++it)
+    for(auto it = j["links"].begin(); it != j["links"].end(); ++it)
     {
         Links link;
 

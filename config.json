@@ -16,10 +16,11 @@
     },
 
     "links": {
-        "Gateway1": ["R5","S4"],
+        "Gateway1": ["R5"],
         "Gateway2": ["R5","S4"]  
     },
 
-    "linkCommand": {"jumpProxy": "Gateway1"}
-
+    "linkCommand": {
+        "jumpProxy": "Gateway1"
+    }
 }

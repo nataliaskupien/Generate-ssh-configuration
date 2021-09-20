@@ -1,5 +1,7 @@
 {
+    
     "files.associations": {
+
         "array": "cpp",
         "bit": "cpp",
         "*.tcc": "cpp",
@@ -60,5 +62,9 @@
         "mutex": "cpp",
         "thread": "cpp",
         "variant": "cpp"
-    }
+    },
+
+    "cmake.debugConfig": {
+        "args": ["-input", "/home/natalia/Generate-ssh-configuration/config.json", "-output","text.txt"]
+      }
 }
