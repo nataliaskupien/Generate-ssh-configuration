@@ -6,12 +6,14 @@
 #include <sstream>
 #include <algorithm>
 #include <vector>
+#include "gateway.h"
+#include "target.h"
 
 class Links
 {
 public:
-    std::string target1;
-    std::string target2;
+
+    std::vector<Gateway>links_gateway;
 
     Links();
 };

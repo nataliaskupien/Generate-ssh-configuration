@@ -10,9 +10,13 @@
 class Target
 {
 public:
+
+    std::string target_name;
     std::string param1;
     std::string param2;
     std::string ip;
+    std::string command;
+    std::string gateway;
 
     Target();
 };

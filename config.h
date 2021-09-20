@@ -26,10 +26,9 @@ public:
     std::string link_command;
 
     std::vector <std::string> init_array;
-
-    Target target1;
-    Gateway gateway1;
-    Links link1;
+    std::vector <Links> links_array;
+    std::vector <Target> targets_array;
+    std::vector <Gateway> gateway_array;
 
     Config();
 
@@ -38,6 +37,8 @@ public:
     std::string get_input_name();
 
     std::string get_output_name();
+
+    std::string get_link_command();
 
     std::vector <std::string> get_arguments();
 

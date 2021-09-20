@@ -1,18 +1,25 @@
 {
     "targets":{
-        "R5": ["param1","param2","IP 123.456.789"],
-        "S4": ["param1","param2","IP 123.456.456"]
+
+        "R5":   ["IP 192.168.56.102",
+                "User Natalia",
+                "IdentityFile C:\\Users\\natalia.skupien\\.ssh\\private.ppk"],
+
+        "S4":   ["IP 190.111.80.100",
+                "User Ala",
+                "IdentityFile C:\\Users\\ala.kowalska\\.ssh\\private.ppk"]
     },
 
     "gateways":{
-        "Gateway1": ["param1","param2","IP 111.222.333"]
+        "Gateway1": ["param1","param2","IP 111.222.333"],
+        "Gateway2": ["param11","param22","IP 444.555.666"]
     },
 
     "links": {
         "Gateway1": ["R5","S4"],
-        "Gateway2": ["R5","S4"]
+        "Gateway2": ["R5","S4"]  
     },
 
-    "linkCommand": "jumpProxy"
+    "linkCommand": {"jumpProxy": "Gateway1"}
 
 }

@@ -47,100 +47,154 @@ Config::Config(){}
 
     i>>j;
 
-    std::string target_name;
-    std::string gateway_name;
-    std::string links_name;
     std::string command_name;
+    std::string jump_gateway;
+    std::string input;
 
-    output_config += "Targets:\n";
+    std::string delimieter = " ";
 
-    for(auto it = j["targets"].begin(); it != j["targets"].end(); ++it)
+    //Gateway *pointer;
+
+    //     for(const auto & item : j["linkCommand"][command_name].items())
+    //     {
+    //         jump_gateway = item.value().get<std::string>();
+            
+    //     }
+
+    // if(jump_gateway.size() > 0)
+    // {
+    //      for(auto it = j["gateways"].begin(); it != j["gateways"].end(); ++it)
+    //      {
+    //          gateway1.gateway_name = it.key();
+
+    //          if(jump_gateway == gateway1.gateway_name)
+    //          {
+    //              target1.gateway = gateway1.gateway_name;
+    //          }
+    //      }
+    // }
+
+ for(auto it = j["targets"].begin(); it != j["targets"].end(); ++it)
     {
-        target_name = it.key();
+        Target target;
 
-        output_config += "\t" + target_name + ": ";
+        target.target_name = it.key();
 
-        for(const auto & item : j["targets"][target_name].items())
+        for(const auto & item : j["targets"][target.target_name].items())
         {
             if(item.key() == "0")
             {
-                target1.param1 = item.value().get<std::string>();
+                input = item.value().get<std::string>();
+
+                target.ip = input.erase(0, input.find(delimieter) + delimieter.length());
             }
             else if(item.key() == "1")
             {
-                target1.param2 = item.value().get<std::string>();
+                input = item.value().get<std::string>();
+
+                target.param1 = input.erase(0 ,input.find(delimieter) + delimieter.length());
             }
             else if(item.key() == "2")
             {
-                target1.ip = item.value().get<std::string>();
+                input = item.value().get<std::string>();
+
+                target.param2 = input.erase(0, input.find(delimieter) + delimieter.length());
+            }
+            for(auto it = j["linkCommand"].begin(); it != j["linkCommand"].end(); ++it)
+            {
+                target.command = it.key();
             }
         }
-
-        output_config += target1.param1 + "," + target1.param2 + "," + target1.ip + "\n" ;
+        targets_array.push_back(target);
     }
-
-    output_config += "\nGateways:\n";
 
     for(auto it = j["gateways"].begin(); it != j["gateways"].end(); ++it)
     {
-        gateway_name = it.key();
+        Gateway gateway;
 
-        output_config +=  "\t" + gateway_name + ": ";
+        gateway.gateway_name = it.key();
 
-        for(const auto & item : j["gateways"][gateway_name].items())
+        if(gateway.gateway_target.size() == 0)
+        {
+            gateway.gateway_target = targets_array;
+        }
+
+        for(const auto & item : j["gateways"][gateway.gateway_name].items())
         {
             if(item.key() == "0")
             {
-                gateway1.param1 = item.value().get<std::string>();
+                gateway.param1 = item.value().get<std::string>();
             }
             else if(item.key() == "1")
             {
-                gateway1.param2 = item.value().get<std::string>();
+                gateway.param2 = item.value().get<std::string>();
             }
             else if(item.key() == "2")
             {
-                gateway1.ip = item.value().get<std::string>();
+                gateway.ip = item.value().get<std::string>();
             }
         }
 
-        output_config += gateway1.param1 + "," + gateway1.param2 + "," + gateway1.ip + "\n";
-    }
-    
-    output_config += "\nLinks:\n";
+        for(auto it = j["links"].begin(); it != j["links"].end(); ++it)
+        {
+            std::string link_name = it.key();
 
-    for(auto it = j["links"].begin(); it != j["links"].end(); ++it)
+            for(const auto & item : j["links"][link_name].items())
+            {
+                for (int i=0; i<targets_array.size(); i++)
+                {
+                    if(item.value().get<std::string>() == targets_array[i].target_name)
+                    {
+                        int value = stoi(item.key());
+
+                        gateway.gateway_target[value] = targets_array[i];
+                    }
+                }
+            }
+        }
+        gateway_array.push_back(gateway);
+    }
+
+     for(auto it = j["links"].begin(); it != j["links"].end(); ++it)
     {
-        links_name = it.key();
+        Links link;
 
-        output_config +=  "\t" + links_name + ": ";
-    
-        for(const auto & item : j["links"][links_name].items())
+        std::string name = it.key();
+
+        if(link.links_gateway.size() == 0)
         {
-            if(item.key() == "0")
-            {
-                link1.target1 = item.value().get<std::string>();
-            }
-            else if(item.key() == "1")
-            {
-                link1.target2 = item.value().get<std::string>();
-            }
+            link.links_gateway = gateway_array;
         }
 
-        output_config += link1.target1 + "," + link1.target2 + "\n";
+        for (int i=0; i<gateway_array.size(); i++)
+        {
+            if(name == gateway_array[i].gateway_name)
+            {
+
+                link.links_gateway[i] = gateway_array[i];
+            }
+        }
+        links_array.push_back(link);
     }
 
-    output_config += "\nLink command: ";
-    
-        for(const auto & item : j["linkCommand"].items())
+    for( int i = 0; i< gateway_array.size(); ++i)
+    {
+        output_config += gateway_array[i].gateway_name + "\n\t" + gateway_array[i].param1 + "\n\t" + 
+        gateway_array[i].param2 + "\n\t" + gateway_array[i].ip + "\n\n" ;
+    }
+
+    for(int i=0; i<links_array.size(); i++)
+    {
+        for(int j =0; j<links_array[i].links_gateway[i].gateway_target.size(); j++)
         {
-              this->link_command = item.value().get<std::string>();
+            output_config += links_array[i].links_gateway[i].gateway_name + "_" + links_array[i].links_gateway[i].gateway_target[j].target_name + "\n\t" 
+            + links_array[i].links_gateway[i].gateway_target[j].ip + "\n\t" +  links_array[i].links_gateway[i].gateway_target[j].param1 + "\n\t" +
+             links_array[i].links_gateway[i].gateway_target[j].param2 + "\n\n";
         }
-
-        output_config += this->link_command + "\n";
-
+    }
     return output_config;
  }
- 
+
  bool Config::is_json() const
  {
      if(input_name.size() > 0)
@@ -159,4 +213,9 @@ Config::Config(){}
     }
 
     return false;
+ }
+
+ std::string Config::get_link_command()
+ {
+     return this->link_command;
  }
