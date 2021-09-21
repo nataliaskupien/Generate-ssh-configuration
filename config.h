@@ -42,11 +42,13 @@ public:
 
     std::vector <std::string> get_arguments();
 
-    std::string create_output(std::string input_name);
+    void create_data(std::string input_name);
 
     bool save_to_file() const;
 
     bool is_json() const;
+
+    std::string create_config();
 
 };
 #endif

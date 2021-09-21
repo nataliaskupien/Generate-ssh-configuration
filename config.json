@@ -16,7 +16,7 @@
     },
 
     "links": {
-        "Gateway1": ["R5"],
+        "Gateway1": ["R5","S4"],
         "Gateway2": ["R5","S4"]  
     },
 
