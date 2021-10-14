@@ -15,7 +15,9 @@ int main(int argc, char* argv[])
     {
         std::string output_name = config.get_output_name();
 
-        std::string save_data = config.create_output(config.get_input_name());
+        config.create_data(config.get_input_name());
+
+        std::string save_data = config.create_config();
 
         File file1(save_data, output_name);
 

@@ -39,7 +39,7 @@ Config::Config(){}
      return this->init_array;
  }
 
- std::string Config::create_output(std::string input_name)
+ void Config::create_data(std::string input_name)
  {
 
     std::ifstream i(input_name);
@@ -77,7 +77,6 @@ Config::Config(){}
 
                 target.param2 = input.erase(0, input.find(delimieter) + delimieter.length());
             }
-
             for(auto it = j["linkCommand"].begin(); it != j["linkCommand"].end(); ++it)
             {
                 target.command = it.key();
@@ -172,7 +171,6 @@ Config::Config(){}
             links_array[i].links_gateway[i].gateway_target[j].param2 + "\n\t" + links_array[i].links_gateway[i].gateway_target[j].command + " " + links_array[i].links_gateway[i].gateway_name + "\n\n";
         }
     }
-    return output_config;
  }
 
  bool Config::is_json() const
@@ -199,3 +197,25 @@ Config::Config(){}
  {
      return this->link_command;
  }
+
+std::string Config::create_config()
+{
+    std::string output_config;
+
+    for( int i = 0; i< gateway_array.size(); ++i)
+    {
+        output_config += gateway_array[i].gateway_name + "\n\t" + gateway_array[i].param1 + "\n\t" + 
+        gateway_array[i].param2 + "\n\t" + gateway_array[i].ip + "\n\n" ;
+    }
+
+    for(int i=0; i<links_array.size(); i++)
+    {
+        for(int j =0; j<links_array[i].links_gateway[i].gateway_target.size(); j++)
+        {
+            output_config += links_array[i].links_gateway[i].gateway_target[j].target_name + "_" + links_array[i].links_gateway[i].gateway_name + "\n\t" 
+            + links_array[i].links_gateway[i].gateway_target[j].ip + "\n\t" +  links_array[i].links_gateway[i].gateway_target[j].param1 + "\n\t" +
+             links_array[i].links_gateway[i].gateway_target[j].param2 + "\n\t" + links_array[i].links_gateway[i].gateway_target[j].command +"\n\n";
+        }
+    }
+    return output_config;
+}
