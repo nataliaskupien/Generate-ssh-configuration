@@ -3,7 +3,7 @@
 
         "R5":   ["IP 192.168.56.102",
                 "User Natalia",
-                "IdentityFile C:\\Users\\natalia.skupien\\.ssh\\private.ppk"],
+                "IdentityFile C:\\Users\\ptysi\\.ssh\\private.ppk"],
 
         "S4":   ["IP 190.111.80.100",
                 "User Ala",
@@ -21,6 +21,6 @@
     },
 
     "linkCommand": {
-        "jumpProxy": "Gateway1"
+        "jumpProxy": "Gateway"
     }
 }

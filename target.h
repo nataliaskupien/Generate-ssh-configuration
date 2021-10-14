@@ -16,7 +16,6 @@ public:
     std::string param2;
     std::string ip;
     std::string command;
-    std::string gateway;
 
     Target();
 };

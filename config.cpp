@@ -46,38 +46,16 @@ Config::Config(){}
 
     json j = json::parse(i);
 
-    std::string command_name;
-    std::string jump_gateway;
-    std::string input;
+    //Tworzenie targetow
 
-    std::string delimieter = " ";
-
-    //Gateway *pointer;
-
-    //     for(const auto & item : j["linkCommand"][command_name].items())
-    //     {
-    //         jump_gateway = item.value().get<std::string>();
-            
-    //     }
-
-    // if(jump_gateway.size() > 0)
-    // {
-    //      for(auto it = j["gateways"].begin(); it != j["gateways"].end(); ++it)
-    //      {
-    //          gateway1.gateway_name = it.key();
-
-    //          if(jump_gateway == gateway1.gateway_name)
-    //          {
-    //              target1.gateway = gateway1.gateway_name;
-    //          }
-    //      }
-    // }
-
- for(auto it = j["targets"].begin(); it != j["targets"].end(); ++it)
+    for(auto it = j["targets"].begin(); it != j["targets"].end(); ++it)
     {
         Target target;
 
         target.target_name = it.key();
+
+        std::string input;
+        std::string delimieter = " ";
 
         for(const auto & item : j["targets"][target.target_name].items())
         {
@@ -99,13 +77,16 @@ Config::Config(){}
 
                 target.param2 = input.erase(0, input.find(delimieter) + delimieter.length());
             }
-            // for(auto it = j["linkCommand"].begin(); it != j["linkCommand"].end(); ++it)
-            // {
-            //     target.command = it.key();
-            // }
+
+            for(auto it = j["linkCommand"].begin(); it != j["linkCommand"].end(); ++it)
+            {
+                target.command = it.key();
+            }
         }
         targets_array.push_back(target);
     }
+
+    //Tworzenie gateways i przypisanie targetow do danego gatewaya
 
     for(auto it = j["gateways"].begin(); it != j["gateways"].end(); ++it)
     {
@@ -128,6 +109,7 @@ Config::Config(){}
                 gateway.ip = item.value().get<std::string>();
             }
         }
+
         for(auto it = j["links"].begin(); it != j["links"].end(); ++it)
         {
             std::string link_name = it.key();
@@ -144,7 +126,6 @@ Config::Config(){}
                     if(item.value().get<std::string>() == targets_array[i].target_name)
                     {
                         gateway.gateway_target.push_back(targets_array[i]);
-
                     }
                 }
             }
@@ -174,6 +155,8 @@ Config::Config(){}
         links_array.push_back(link);
     }
 
+    //Tworzenie pliku wyjsciowego
+
     for( int i = 0; i< gateway_array.size(); ++i)
     {
         output_config += gateway_array[i].gateway_name + "\n\t" + gateway_array[i].param1 + "\n\t" + 
@@ -184,9 +167,9 @@ Config::Config(){}
     {
         for(int j =0; j<links_array[i].links_gateway[i].gateway_target.size(); j++)
         {
-            output_config += links_array[i].links_gateway[i].gateway_name + "_" + links_array[i].links_gateway[i].gateway_target[j].target_name + "\n\t" 
+            output_config += links_array[i].links_gateway[i].gateway_target[j].target_name + "_" + links_array[i].links_gateway[i].gateway_name + "\n\t"
             + links_array[i].links_gateway[i].gateway_target[j].ip + "\n\t" +  links_array[i].links_gateway[i].gateway_target[j].param1 + "\n\t" +
-             links_array[i].links_gateway[i].gateway_target[j].param2 + "\n\n";
+            links_array[i].links_gateway[i].gateway_target[j].param2 + "\n\t" + links_array[i].links_gateway[i].gateway_target[j].command + " " + links_array[i].links_gateway[i].gateway_name + "\n\n";
         }
     }
     return output_config;
