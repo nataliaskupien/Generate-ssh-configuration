@@ -19,8 +19,7 @@ using json = nlohmann::json;
 class Config
 {
 public:
-
-    std::string input_name;
+    std::string input_name = "abc";
     std::string output_name;
     std::string output_config;
     std::string link_command;
@@ -50,5 +49,7 @@ public:
 
     std::string create_config();
 
+    friend std::ostream& operator<<(std::ostream &out, const std::vector<Gateway> &gateway);
+    friend std::ostream& operator<<(std::ostream &out2, const std::vector<Target> &target);
 };
 #endif

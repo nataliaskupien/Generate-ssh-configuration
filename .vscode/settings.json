@@ -59,7 +59,9 @@
     "iomanip": "cpp",
     "mutex": "cpp",
     "thread": "cpp",
-    "variant": "cpp"
+    "variant": "cpp",
+    "any": "cpp",
+    "codecvt": "cpp"
   },
   "cmake.debugConfig": {
     "args": [

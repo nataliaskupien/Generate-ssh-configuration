@@ -15,6 +15,6 @@ public:
 
     std::vector<Gateway>links_gateway;
 
-    Links();
+    Links() = default;
 };
 #endif

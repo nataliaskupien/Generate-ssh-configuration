@@ -12,9 +12,10 @@ class Gateway
 {
 public:
     std::string gateway_name;
-    std::string param1;
-    std::string param2;
+    std::vector<std::string> gateway_parameters;
     std::string ip;
     std::vector <Target> gateway_target;
+
+    friend std::ostream& operator<<(std::ostream &out, const std::vector<Gateway> &gateway);
 };
 #endif

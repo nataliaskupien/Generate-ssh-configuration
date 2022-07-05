@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
     {
         std::string output_name = config->get_output_name();
 
-        //config.create_data(config.get_input_name()); // TODO klasa ktora ma jakas dana nie musi o nia pytac. powinno byc po prostu config.create_data();
+        //config->create_data();
         config->create_data("/home/natalia/Generate-ssh-configuration/config.json");
 
         std::string save_data = config->create_config();

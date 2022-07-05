@@ -12,11 +12,11 @@ class Target
 public:
 
     std::string target_name;
-    std::string param1;
-    std::string param2;
+    std::vector<std::string> target_parameters;
     std::string ip;
     std::string command;
 
-    Target();
+    Target() = default;
+    friend std::ostream& operator<<(std::ostream &out, const std::vector<Target> &target);
 };
 #endif
