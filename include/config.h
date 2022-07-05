@@ -12,8 +12,8 @@
 #include "target.h"
 #include "gateway.h"
 #include "links.h"
-
 #include <nlohmann/json.hpp>
+
 using json = nlohmann::json;
 
 class Config
@@ -30,7 +30,7 @@ public:
     std::vector <Target> targets_array;
     std::vector <Gateway> gateway_array;
 
-    Config();
+    Config() = default;
 
     void init_arguments(int argc, char* argv[]);
 

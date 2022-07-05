@@ -15,9 +15,6 @@ public:
     std::string param1;
     std::string param2;
     std::string ip;
-
     std::vector <Target> gateway_target;
-
-    Gateway();
 };
 #endif

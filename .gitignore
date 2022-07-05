@@ -43,7 +43,7 @@
 
 build/
 
-nlohmann/
+json/
 
 CMakeLists.txt.user
 CMakeCache.txt

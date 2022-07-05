@@ -1,15 +1,17 @@
 cmake_minimum_required(VERSION 3.0.0)
-add_subdirectory(nlohmann)
 project(generate_ssh_config VERSION 0.1.0)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_executable(generate_ssh_config 
-    main.cpp
-    config.cpp
-    target.cpp
-    gateway.cpp
-    links.cpp
-    save_file.cpp
-    )
+add_subdirectory(json)
 
-target_link_libraries(generate_ssh_config PRIVATE nlohmann_json::nlohmann_json)
+file(GLOB SOURCES "src/*.cpp")
+file(GLOB HEADERS "include/*.h")
+
+include_directories( 
+    "${PROJECT_SOURCE_DIR}")
+
+add_executable(${PROJECT_NAME} main.cpp ${SOURCES})
+target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)

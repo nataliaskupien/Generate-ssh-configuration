@@ -10,7 +10,7 @@
                 "IdentityFile C:\\Users\\ala.kowalska\\.ssh\\private.ppk"]
     },
 
-    "gateways":{
+    "gateways": {
         "Gateway1": ["param1","param2","IP 111.222.333"],
         "Gateway2": ["param11","param22","IP 444.555.666"]
     },
