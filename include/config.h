@@ -50,6 +50,6 @@ public:
     std::string create_config();
 
     friend std::ostream& operator<<(std::ostream &out, const std::vector<Gateway> &gateway);
-    friend std::ostream& operator<<(std::ostream &out2, const std::vector<Target> &target);
+    friend std::ostream& operator<<(std::ostream &out2, const Target &target);
 };
 #endif

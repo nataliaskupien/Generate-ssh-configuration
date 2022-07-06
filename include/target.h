@@ -17,6 +17,6 @@ public:
     std::string command;
 
     Target() = default;
-    friend std::ostream& operator<<(std::ostream &out, const std::vector<Target> &target);
+    friend std::ostream& operator<<(std::ostream &out, const Target &target);
 };
 #endif

@@ -9,7 +9,6 @@ class File
 {
 private:
     std::string data;
-
     std::string file_name;
 
 public:
