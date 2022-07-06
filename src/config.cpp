@@ -37,10 +37,11 @@ std::vector <std::string> Config::get_arguments()
     return this->init_array;
 }
 
-void Config::create_data(std::string input_name)
+void Config::create_data()
 {
     std::ifstream i(input_name);
     json j = json::parse(i);
+    
     std::string val;
 
     //Tworzenie targetow
@@ -63,15 +64,19 @@ void Config::create_data(std::string input_name)
                 target.target_parameters.push_back(val);
             }
 
-            for(auto it = j["linkCommand"].begin(); it != j["linkCommand"].end(); ++it)
+            if(j["linkCommand"].empty())
             {
-                target.command = it.key();
+                std::cerr << "No link command found!" << std::endl;
+            }
+            else
+            {
+                target.command = j["linkCommand"].begin().key();
             }
         }
         targets_array.push_back(target);
     }
 
-//Tworzenie gateways i przypisanie targetow do danego gatewaya
+//Tworzenie gateways
 
     for(auto it = j["gateways"].begin(); it != j["gateways"].end(); ++it)
     {
@@ -84,6 +89,8 @@ void Config::create_data(std::string input_name)
             val = item.value().get<std::string>();
             gateway.gateway_parameters.push_back(val);
         }
+
+//Przypisanie targetów do okreslonego Gateway
 
         for(auto it = j["links"].begin(); it != j["links"].end(); ++it)
         {
@@ -107,6 +114,8 @@ void Config::create_data(std::string input_name)
         }
     gateway_array.push_back(gateway);
     }
+
+//Wrzucenie do Links Gateway z przypisanymi do niego targetami
 
     for(auto it = j["links"].begin(); it != j["links"].end(); ++it)
     {
@@ -147,14 +156,9 @@ bool Config::save_to_file() const
     return false;
 }
 
-std::string Config::get_link_command()
-{
-    return this->link_command;
-}
-
 std::string Config::create_config()
 {
-    std::string output_config;
+    //std::string output_config;
 
     std::ostringstream ss;
     ss << gateway_array;

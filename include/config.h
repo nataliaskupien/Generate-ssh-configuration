@@ -19,7 +19,7 @@ using json = nlohmann::json;
 class Config
 {
 public:
-    std::string input_name = "abc";
+    std::string input_name;
     std::string output_name;
     std::string output_config;
     std::string link_command;
@@ -37,11 +37,9 @@ public:
 
     std::string get_output_name();
 
-    std::string get_link_command();
-
     std::vector <std::string> get_arguments();
 
-    void create_data(std::string input_name);
+    void create_data();
 
     bool save_to_file() const;
 

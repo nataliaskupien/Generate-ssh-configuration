@@ -13,8 +13,7 @@ int main(int argc, char* argv[])
     {
         std::string output_name = config->get_output_name();
 
-        //config->create_data();
-        config->create_data("/home/natalia/Generate-ssh-configuration/config.json");
+        config->create_data();
 
         std::string save_data = config->create_config();
 
