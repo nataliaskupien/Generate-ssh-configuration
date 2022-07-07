@@ -9,7 +9,7 @@ int main(int argc, char* argv[])
 
     config->init_arguments(argc,argv);
 
-    if(config->is_json() && config->save_to_file())
+    if(config->is_json() && config->if_output_defined())
     {
         std::string output_name = config->get_output_name();
 

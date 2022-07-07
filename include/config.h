@@ -41,7 +41,7 @@ public:
 
     void create_data();
 
-    bool save_to_file() const;
+    bool if_output_defined() const;
 
     bool is_json() const;
 

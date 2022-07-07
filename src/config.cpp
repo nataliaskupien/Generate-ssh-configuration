@@ -3,21 +3,37 @@
 
 void Config::init_arguments(int argc, char* argv[])
 {
+    std::vector<std::string>::iterator itr;
+
     for(int i = 1; i < argc; i++)
     {
         init_array.push_back(argv[i]);
     }
-    for(auto i = init_array.begin(); i != init_array.end(); ++i )
+    for(itr = init_array.begin(); itr != init_array.end(); ++itr )
     {
-        if(*i == "-input")
+        if(*itr == "-input")
         {
-            i++;
-            this->input_name = *i;
+            itr = std::next(itr,1);
+            
+            if(itr == init_array.end())
+            {
+                break;
+            }
+            this->input_name = *itr;
         }
-        if(*i == "-output")
+        else if(*itr == "-output")
         {
-            i++;
-            this->output_name = *i;
+            itr = std::next(itr,1);
+
+            if(itr == init_array.end())
+            {
+                break;
+            }
+            this->output_name = *itr;
+        }
+        else
+        {
+            std::cerr << "Unrecognized element in vector" << std::endl;
         }
     }
 }
@@ -140,26 +156,33 @@ void Config::create_data()
 
 bool Config::is_json() const
 {
-    if(input_name.size() > 0)
+    try
     {
+        std::ifstream i(input_name);
+        json j = json::parse(i);
         return true;
     }
-    return false;
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+        return false;
+    }
 }
 
-bool Config::save_to_file() const
+bool Config::if_output_defined() const
 {
     if(output_name.size() > 0)
     {
         return true;
     }
-    return false;
+    else
+    {
+        return false;
+    }
 }
 
 std::string Config::create_config()
 {
-    //std::string output_config;
-
     std::ostringstream ss;
     ss << gateway_array;
     output_config += ss.str();
@@ -188,11 +211,11 @@ std::ostream& operator<<(std::ostream &out, const std::vector<Gateway> &gateway)
         
     for(int i = 0; i < gateway.size(); i++)
     {
-        out << "\n" << gateway[i].gateway_name << "\n";
+        out << gateway[i].gateway_name << "\n";
 
         for(int j = 0; j < gateway[i].gateway_parameters.size(); j++)
         {
-            out << gateway[i].gateway_parameters[j] << "\n";
+            out << "\t" << gateway[i].gateway_parameters[j] << "\n";
         }
     }
     return out;
@@ -200,11 +223,13 @@ std::ostream& operator<<(std::ostream &out, const std::vector<Gateway> &gateway)
 
 std::ostream& operator<<(std::ostream &out2, const Target &target)
 {
-    out2 << "\n" << target.ip << "\n";
+    out2 << "\n\t" << target.ip << "\n";
 
     for(int j = 0; j < target.target_parameters.size(); j++)
     {
-        out2 << target.target_parameters[j] << "\n";
+        out2 << "\t" << target.target_parameters[j] << "\n";
     }
+    out2 << "\t" << target.command << "\n";
+
     return out2;
 }
