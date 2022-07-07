@@ -1,18 +1,18 @@
 { 
     "targets": {
 
-        "R5":   ["IP 192.168.56.102",
+        "R5":   ["HostName 192.168.56.102",
                 "User Natalia",
                 "IdentityFile C:\\Users\\d.kowalski\\.ssh\\private.ppk"],
 
-        "S4":   ["IP 190.111.80.100",
-                "User Ala",
+        "S4":   ["HostName 190.111.80.100",
+                "User root",
                 "IdentityFile C:\\Users\\ala.kowalska\\.ssh\\private.ppk"]
     },
 
     "gateways": {
-        "Gateway1": ["param1","param2","IP 111.222.333"],
-        "Gateway2": ["param11","param22","IP 444.555.666"]
+        "Gateway1": ["param1","param2"],
+        "Gateway2": ["param11","param22"]
     },
 
     "links": {
@@ -21,6 +21,6 @@
     },
 
     "linkCommand": {
-        "jumpProxy": "Gateway"
+        "jumpProxy": "Gateway1"
     }
 }

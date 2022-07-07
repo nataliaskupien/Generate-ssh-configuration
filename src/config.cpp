@@ -71,14 +71,7 @@ void Config::create_data()
         {
             val = item.value().get<std::string>();
 
-            if(val.find("IP") != std::string::npos)
-            {
-                target.ip = val;
-            }
-            else
-            {
-                target.target_parameters.push_back(val);
-            }
+            target.target_parameters.push_back(val);
 
             if(j["linkCommand"].empty())
             {
@@ -223,13 +216,13 @@ std::ostream& operator<<(std::ostream &out, const std::vector<Gateway> &gateway)
 
 std::ostream& operator<<(std::ostream &out2, const Target &target)
 {
-    out2 << "\n\t" << target.ip << "\n";
+   // out2 << "\n\t" << target.ip << "\n";
 
     for(int j = 0; j < target.target_parameters.size(); j++)
     {
-        out2 << "\t" << target.target_parameters[j] << "\n";
+        out2 << "\n\t" << target.target_parameters[j];
     }
-    out2 << "\t" << target.command << "\n";
+    out2 << "\n\t" << target.command << "\n";
 
     return out2;
 }

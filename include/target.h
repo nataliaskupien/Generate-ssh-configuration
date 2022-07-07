@@ -13,7 +13,6 @@ public:
 
     std::string target_name;
     std::vector<std::string> target_parameters;
-    std::string ip;
     std::string command;
 
     Target() = default;
