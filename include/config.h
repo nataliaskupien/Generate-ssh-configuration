@@ -14,7 +14,8 @@
 #include "links.h"
 #include <nlohmann/json.hpp>
 
-using json = nlohmann::json;
+using json = nlohmann::ordered_json;
+using ordered_json = nlohmann::ordered_json;
 
 class Config
 {

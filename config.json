@@ -1,11 +1,11 @@
 { 
     "targets": {
 
-        "R5":   ["HostName 192.168.56.102",
+        "R5": ["HostName 192.168.56.102",
                 "User Natalia",
                 "IdentityFile C:\\Users\\d.kowalski\\.ssh\\private.ppk"],
 
-        "S4":   ["HostName 190.111.80.100",
+        "S4": ["HostName 190.111.80.100",
                 "User root",
                 "IdentityFile C:\\Users\\ala.kowalska\\.ssh\\private.ppk"]
     },
@@ -20,7 +20,5 @@
         "Gateway2": ["R5","S4"]  
     },
 
-    "linkCommand": {
-        "jumpProxy": "Gateway1"
-    }
+    "linkCommand": "ProxyCommand ssh -W %h:%p <gateway>"
 }

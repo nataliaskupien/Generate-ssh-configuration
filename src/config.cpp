@@ -56,7 +56,7 @@ std::vector <std::string> Config::get_arguments()
 void Config::create_data()
 {
     std::ifstream i(input_name);
-    json j = json::parse(i);
+    json j = ordered_json::parse(i);
     
     std::string val;
 
@@ -79,7 +79,7 @@ void Config::create_data()
             }
             else
             {
-                target.command = j["linkCommand"].begin().key();
+                target.command = j["linkCommand"];
             }
         }
         targets_array.push_back(target);
@@ -117,6 +117,15 @@ void Config::create_data()
                     if(item.value().get<std::string>() == targets_array[i].target_name)
                     {
                         gateway.gateway_target.push_back(targets_array[i]);
+                        std::string to_replace = "<gateway>";
+                        auto f = gateway.gateway_target[i].command.find(to_replace);
+
+                        if(f != std::string::npos)
+                        {
+                            gateway.gateway_target[i].command.erase(f, to_replace.length());
+                            gateway.gateway_target[i].command += gateway.gateway_name;
+                        }
+                        
                     }
                 }
             }
@@ -188,7 +197,7 @@ std::string Config::create_config()
         {
             auto current_link_target = current_link_gateway.gateway_target[j];
             auto target_name = current_link_gateway.gateway_name + "_" + current_link_target.target_name;
-            output_config += "\n" + target_name;
+            output_config += target_name;
 
             ss.str("");
             ss.clear();
@@ -210,19 +219,19 @@ std::ostream& operator<<(std::ostream &out, const std::vector<Gateway> &gateway)
         {
             out << "\t" << gateway[i].gateway_parameters[j] << "\n";
         }
+        out << "\n";
     }
     return out;
 }
 
 std::ostream& operator<<(std::ostream &out2, const Target &target)
 {
-   // out2 << "\n\t" << target.ip << "\n";
 
     for(int j = 0; j < target.target_parameters.size(); j++)
     {
         out2 << "\n\t" << target.target_parameters[j];
     }
-    out2 << "\n\t" << target.command << "\n";
+    out2 << "\n\t" << target.command << "\n\n";
 
     return out2;
 }
