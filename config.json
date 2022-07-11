@@ -5,19 +5,23 @@
                 "User Natalia",
                 "IdentityFile C:\\Users\\d.kowalski\\.ssh\\private.ppk"],
 
-        "S4": ["HostName 190.111.80.100",
+        "S4": ["HostName 190.111.8.1",
                 "User root",
-                "IdentityFile C:\\Users\\ala.kowalska\\.ssh\\private.ppk"]
+                "IdentityFile C:\\Users\\ala.kowalska\\.ssh\\private.ppk"],
+
+        "A5": ["HostName 192.168.8.2",
+                "User root",
+                "IdentityFile C:\\Users\\m.kowalski\\.ssh\\private.ppk"]
     },
 
     "gateways": {
-        "Gateway1": ["param1","param2"],
+        "Gateway1": ["param1","param2", "param3"],
         "Gateway2": ["param11","param22"]
     },
 
     "links": {
-        "Gateway1": ["R5"],
-        "Gateway2": ["R5","S4"]  
+        "Gateway1": ["A5"],
+        "Gateway2": ["R5","S4"]
     },
 
     "linkCommand": "ProxyCommand ssh -W %h:%p <gateway>"

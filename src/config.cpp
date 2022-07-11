@@ -117,20 +117,25 @@ void Config::create_data()
                     if(item.value().get<std::string>() == targets_array[i].target_name)
                     {
                         gateway.gateway_target.push_back(targets_array[i]);
-                        std::string to_replace = "<gateway>";
-                        auto f = gateway.gateway_target[i].command.find(to_replace);
-
-                        if(f != std::string::npos)
-                        {
-                            gateway.gateway_target[i].command.erase(f, to_replace.length());
-                            gateway.gateway_target[i].command += gateway.gateway_name;
-                        }
-                        
                     }
                 }
+
+            //Przypisanie linkcommand z odpowiednim gateway'em
+
+                for(int j = 0; j < gateway.gateway_target.size(); j++)
+                {
+                    std::string to_replace = "<gateway>";
+                    auto f = gateway.gateway_target[j].command.find(to_replace);
+
+                    if(f != std::string::npos)
+                    {
+                        gateway.gateway_target[j].command.erase(f, to_replace.length());
+                        gateway.gateway_target[j].command += gateway.gateway_name;
+                    }
+                }      
             }
         }
-    gateway_array.push_back(gateway);
+        gateway_array.push_back(gateway);
     }
 
 //Wrzucenie do Links Gateway z przypisanymi do niego targetami
