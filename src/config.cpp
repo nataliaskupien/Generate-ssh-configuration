@@ -53,14 +53,16 @@ std::vector <std::string> Config::get_arguments()
     return this->init_array;
 }
 
-void Config::create_data()
-{
-    std::ifstream i(input_name);
-    json j = ordered_json::parse(i);
-    
+void Config::create_data(json j)
+{   
     std::string val;
 
     //Tworzenie targetow
+
+    if(j["targets"].size() == 0)
+    {
+        throw std::invalid_argument("No targets in json file!\n");
+    }
 
     for(auto it = j["targets"].begin(); it != j["targets"].end(); ++it)
     {
@@ -239,4 +241,12 @@ std::ostream& operator<<(std::ostream &out2, const Target &target)
     out2 << "\n\t" << target.command << "\n\n";
 
     return out2;
+}
+
+json Config::parse(std::string input_name)
+{
+    std::ifstream i(input_name);
+    json j = json::parse(i);
+
+    return j;
 }

@@ -9,21 +9,24 @@ int main(int argc, char* argv[])
 
     config->init_arguments(argc,argv);
 
-    if(config->is_json() && config->if_output_defined())
+    try
     {
-        std::string output_name = config->get_output_name();
+        if(config->is_json())
+        {
+            std::string output_name = config->get_output_name();
 
-        config->create_data();
+            config->create_data(config->parse(config->input_name));
 
-        std::string save_data = config->create_config();
+            std::string save_data = config->create_config();
 
-        std::unique_ptr<File> file = std::make_unique<File>(save_data,output_name);
+            std::unique_ptr<File> file = std::make_unique<File>(save_data,output_name);
 
-        file->save_to_file();
+            file->save_to_file();
+        }
     }
-    else
+    catch(std::invalid_argument &e)
     {
-        std::cerr << "File is not json provided or output file name is incorrect" << std::endl;
+        std::cerr << e.what();
         return 1;
     }
 

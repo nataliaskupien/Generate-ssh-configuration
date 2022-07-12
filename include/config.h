@@ -14,14 +14,13 @@
 #include "links.h"
 #include <nlohmann/json.hpp>
 
-using json = nlohmann::ordered_json;
-using ordered_json = nlohmann::ordered_json;
+using json = nlohmann::json;
 
 class Config
 {
 public:
     std::string input_name;
-    std::string output_name;
+    std::string output_name = "test.txt";
     std::string output_config;
     std::string link_command;
 
@@ -40,11 +39,13 @@ public:
 
     std::vector <std::string> get_arguments();
 
-    void create_data();
+    void create_data(json j);
 
     bool if_output_defined() const;
 
     bool is_json() const;
+
+    json parse(std::string input_name);
 
     std::string create_config();
 
