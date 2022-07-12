@@ -61,7 +61,8 @@
     "thread": "cpp",
     "variant": "cpp",
     "any": "cpp",
-    "codecvt": "cpp"
+    "codecvt": "cpp",
+    "cinttypes": "cpp"
   },
   "cmake.debugConfig": {
     "args": [

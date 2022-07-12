@@ -16,3 +16,4 @@ include_directories(
 add_executable(${PROJECT_NAME} main.cpp ${SOURCES})
 target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
 #install(FILES ${PROJECT_SOURCE_DIR}/build/config.txt DESTINATION /home/natalia/config/)
+add_subdirectory(Tests)

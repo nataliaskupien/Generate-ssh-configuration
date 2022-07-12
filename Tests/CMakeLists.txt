@@ -12,20 +12,18 @@ FetchContent_Declare(
 
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-file(GLOB SOURCES "*.cpp")
-#file(GLOB HEADERS "include/*.h")
+file(GLOB SOURCES "../src/*.cpp*")
+file(GLOB HEADERS "../include/*.h")
 
-include_directories( 
-    "${PROJECT_SOURCE_DIR}")
-
-add_executable(${PROJECT_NAME} example_test.cpp ${SOURCES})
+add_executable(${PROJECT_NAME} arguments_test.cpp save_data_test.cpp ${SOURCES})
 
 target_link_libraries(
-  tests
+  ${PROJECT_NAME}
   gtest_main
 )
 
