@@ -33,7 +33,7 @@ void Config::init_arguments(int argc, char* argv[])
         }
         else
         {
-            std::cerr << "Unrecognized element in vector" << std::endl;
+            throw std::invalid_argument("Unrecognized element in vector\n");
         }
     }
 }
@@ -77,7 +77,7 @@ void Config::create_data(json j)
 
             if(j["linkCommand"].empty())
             {
-                std::cerr << "No link command found!" << std::endl;
+                throw std::invalid_argument ("No link command found!");
             }
             else
             {
@@ -87,7 +87,12 @@ void Config::create_data(json j)
         targets_array.push_back(target);
     }
 
-//Tworzenie gateways
+    //Tworzenie gateways
+
+    if(j["gateways"].size() == 0)
+    {
+        throw std::invalid_argument("No gateway in json file!\n");
+    }
 
     for(auto it = j["gateways"].begin(); it != j["gateways"].end(); ++it)
     {
@@ -101,16 +106,7 @@ void Config::create_data(json j)
             gateway.gateway_parameters.push_back(val);
         }
 
-//Przypisanie targetów do okreslonego Gateway
-
-        for(auto it = j["links"].begin(); it != j["links"].end(); ++it)
-        {
-            std::string link_name = it.key();
-        
-            if (link_name != gateway.gateway_name)
-            {
-                continue;
-            }
+        //Przypisanie targetów do okreslonego Gateway
 
             for(const auto & item : j["links"][gateway.gateway_name].items())
             {
@@ -136,11 +132,10 @@ void Config::create_data(json j)
                     }
                 }      
             }
-        }
         gateway_array.push_back(gateway);
     }
 
-//Wrzucenie do Links Gateway z przypisanymi do niego targetami
+    //Wrzucenie do Links Gateway z przypisanymi do niego targetami
 
     for(auto it = j["links"].begin(); it != j["links"].end(); ++it)
     {

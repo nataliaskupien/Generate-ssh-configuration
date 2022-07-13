@@ -7,10 +7,10 @@ int main(int argc, char* argv[])
 {
     std::unique_ptr<Config> config = std::make_unique<Config>();
 
-    config->init_arguments(argc,argv);
-
     try
     {
+        config->init_arguments(argc,argv);
+        
         if(config->is_json())
         {
             std::string output_name = config->get_output_name();

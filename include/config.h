@@ -20,7 +20,7 @@ class Config
 {
 public:
     std::string input_name;
-    std::string output_name = "test.txt";
+    std::string output_name = "configuration.txt";
     std::string output_config;
     std::string link_command;
 
