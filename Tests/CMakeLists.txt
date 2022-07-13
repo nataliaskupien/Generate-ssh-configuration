@@ -20,7 +20,11 @@ enable_testing()
 file(GLOB SOURCES "../src/*.cpp*")
 file(GLOB HEADERS "../include/*.h")
 
-add_executable(${PROJECT_NAME} arguments_test.cpp save_data_test.cpp ${SOURCES})
+add_executable(${PROJECT_NAME} 
+arguments_test.cpp 
+save_data_test.cpp
+parse_file_test.cpp 
+${SOURCES})
 
 target_link_libraries(
   ${PROJECT_NAME}
