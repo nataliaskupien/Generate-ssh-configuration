@@ -24,6 +24,7 @@ add_executable(${PROJECT_NAME}
 arguments_test.cpp 
 save_data_test.cpp
 parse_file_test.cpp 
+integration_tests.cpp
 ${SOURCES})
 
 target_link_libraries(
